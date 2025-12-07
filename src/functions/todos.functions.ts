@@ -1,7 +1,7 @@
 import { authMiddleware } from "@/middlewares/authMiddleware";
 import { connectDB } from "@/models/Database";
 import { Todo, TodoModel } from "@/models/todo.model";
-import { TodoDTO, TodoSchema } from "@/schemas/todo.schema";
+import {  TodoSchema } from "@/schemas/todo.schema";
 import { createServerFn } from "@tanstack/react-start";
 import { nanoid } from "nanoid";
 
