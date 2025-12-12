@@ -12,21 +12,20 @@ export const Route = createFileRoute("/account/register")({
 const initialValues: UserDTO = {
   email: "",
   password: "",
-  firstName:"",
-  lastName:""
+  firstName: "",
+  lastName: "",
 };
 function RouteComponent() {
   const userCreateFun = useServerFn(registerUser);
-  const router=useRouter()
+  const router = useRouter();
   const m = useMutation({
     mutationFn: (values: UserDTO) => {
       return userCreateFun({ data: values });
     },
-    onSuccess:(response)=>{
+    onSuccess: (response) => {
       console.log(response);
-      router.navigate({to:"/account"})
-
-    }
+      router.navigate({ to: "/account" });
+    },
   });
   const handleSubmit = (values: UserDTO) => {
     console.log(values);
@@ -39,11 +38,11 @@ function RouteComponent() {
         <Formik initialValues={initialValues} onSubmit={handleSubmit}>
           {({}) => (
             <Form>
-                <div>
+              <div>
                 <label>Firstname :</label>
                 <Field name="firstName" />
               </div>
-                   <div>
+              <div>
                 <label>Lastname :</label>
                 <Field name="lastName" />
               </div>

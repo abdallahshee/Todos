@@ -24,7 +24,7 @@ const { data } = useQuery({
 });
   return (
     <div>
-      <h2>Todos</h2>
+      <h2>My Posts</h2>
       <div>
         {data && data.map((item)=>(
         <div key={item._id}>

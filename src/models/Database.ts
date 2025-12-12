@@ -7,8 +7,8 @@ export const connectDB=async()=>{
         return mongoose.connection
 
     }else{
-        const key=process.env.DATABASE_URL ||""
-        const con =await mongoose.connect(key)
+        const DB_URL=process.env.DATABASE_URL ||""
+        const con =await mongoose.connect(DB_URL)
         console.log('DB IS CONNECTED');
         return con
     }
