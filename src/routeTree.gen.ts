@@ -10,9 +10,9 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as TodosIndexRouteImport } from './routes/todos/index'
+import { Route as PostsIndexRouteImport } from './routes/posts/index'
 import { Route as AccountIndexRouteImport } from './routes/account/index'
-import { Route as TodosCreateRouteImport } from './routes/todos/create'
+import { Route as PostsCreateRouteImport } from './routes/posts/create'
 import { Route as AccountRegisterRouteImport } from './routes/account/register'
 import { Route as AccountHomeRouteImport } from './routes/account/home'
 
@@ -21,9 +21,9 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TodosIndexRoute = TodosIndexRouteImport.update({
-  id: '/todos/',
-  path: '/todos/',
+const PostsIndexRoute = PostsIndexRouteImport.update({
+  id: '/posts/',
+  path: '/posts/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AccountIndexRoute = AccountIndexRouteImport.update({
@@ -31,9 +31,9 @@ const AccountIndexRoute = AccountIndexRouteImport.update({
   path: '/account/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TodosCreateRoute = TodosCreateRouteImport.update({
-  id: '/todos/create',
-  path: '/todos/create',
+const PostsCreateRoute = PostsCreateRouteImport.update({
+  id: '/posts/create',
+  path: '/posts/create',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AccountRegisterRoute = AccountRegisterRouteImport.update({
@@ -51,26 +51,26 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/account/home': typeof AccountHomeRoute
   '/account/register': typeof AccountRegisterRoute
-  '/todos/create': typeof TodosCreateRoute
+  '/posts/create': typeof PostsCreateRoute
   '/account': typeof AccountIndexRoute
-  '/todos': typeof TodosIndexRoute
+  '/posts': typeof PostsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account/home': typeof AccountHomeRoute
   '/account/register': typeof AccountRegisterRoute
-  '/todos/create': typeof TodosCreateRoute
+  '/posts/create': typeof PostsCreateRoute
   '/account': typeof AccountIndexRoute
-  '/todos': typeof TodosIndexRoute
+  '/posts': typeof PostsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/account/home': typeof AccountHomeRoute
   '/account/register': typeof AccountRegisterRoute
-  '/todos/create': typeof TodosCreateRoute
+  '/posts/create': typeof PostsCreateRoute
   '/account/': typeof AccountIndexRoute
-  '/todos/': typeof TodosIndexRoute
+  '/posts/': typeof PostsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -78,34 +78,34 @@ export interface FileRouteTypes {
     | '/'
     | '/account/home'
     | '/account/register'
-    | '/todos/create'
+    | '/posts/create'
     | '/account'
-    | '/todos'
+    | '/posts'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/account/home'
     | '/account/register'
-    | '/todos/create'
+    | '/posts/create'
     | '/account'
-    | '/todos'
+    | '/posts'
   id:
     | '__root__'
     | '/'
     | '/account/home'
     | '/account/register'
-    | '/todos/create'
+    | '/posts/create'
     | '/account/'
-    | '/todos/'
+    | '/posts/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccountHomeRoute: typeof AccountHomeRoute
   AccountRegisterRoute: typeof AccountRegisterRoute
-  TodosCreateRoute: typeof TodosCreateRoute
+  PostsCreateRoute: typeof PostsCreateRoute
   AccountIndexRoute: typeof AccountIndexRoute
-  TodosIndexRoute: typeof TodosIndexRoute
+  PostsIndexRoute: typeof PostsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -117,11 +117,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/todos/': {
-      id: '/todos/'
-      path: '/todos'
-      fullPath: '/todos'
-      preLoaderRoute: typeof TodosIndexRouteImport
+    '/posts/': {
+      id: '/posts/'
+      path: '/posts'
+      fullPath: '/posts'
+      preLoaderRoute: typeof PostsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/account/': {
@@ -131,11 +131,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/todos/create': {
-      id: '/todos/create'
-      path: '/todos/create'
-      fullPath: '/todos/create'
-      preLoaderRoute: typeof TodosCreateRouteImport
+    '/posts/create': {
+      id: '/posts/create'
+      path: '/posts/create'
+      fullPath: '/posts/create'
+      preLoaderRoute: typeof PostsCreateRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/account/register': {
@@ -159,9 +159,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccountHomeRoute: AccountHomeRoute,
   AccountRegisterRoute: AccountRegisterRoute,
-  TodosCreateRoute: TodosCreateRoute,
+  PostsCreateRoute: PostsCreateRoute,
   AccountIndexRoute: AccountIndexRoute,
-  TodosIndexRoute: TodosIndexRoute,
+  PostsIndexRoute: PostsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

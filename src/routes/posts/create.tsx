@@ -1,4 +1,4 @@
-import { createTodo } from "@/functions/post.functions";
+import { createPost } from "@/functions/post.functions";
 import { PostDTO } from "@/schemas/post.schema";
 import { useAuthStore } from "@/stores.ts/authStore";
 import { useMutation } from "@tanstack/react-query";
@@ -7,48 +7,47 @@ import { useServerFn } from "@tanstack/react-start";
 import { Formik, Form, Field } from "formik";
 import { Button } from "primereact/button";
 
-  //  const item = localStorage.getItem("auth");
-export const Route = createFileRoute("/todos/create")({
-beforeLoad() {
-  const isAuthenticated=useAuthStore.getState().isAuthenticated
-  if(!isAuthenticated){
-    console.log('Not Authenticated');
-    throw redirect({to:"/account"})
-  }
-},
+//  const item = localStorage.getItem("auth");
+export const Route = createFileRoute("/posts/create")({
+  beforeLoad() {
+    const isAuthenticated = useAuthStore.getState().isAuthenticated;
+    if (!isAuthenticated) {
+      // console.log('Not Authenticated');
+      throw redirect({ to: "/account" });
+    }
+  },
   component: RouteComponent,
 });
 const initialValues: PostDTO = {
   title: "",
-
+  description: "",
 };
 function RouteComponent() {
-  const createTodoFn = useServerFn(createTodo);
-  const router=useRouter()
+  const createTodoFn = useServerFn(createPost);
+  const router = useRouter();
   const m = useMutation({
     mutationFn: (values: PostDTO) => {
       return createTodoFn({
         data: {
           title: values.title,
-       
+          description: values.description,
         },
       });
     },
     onSuccess: (result) => {
-      console.log("RESULT FROM SERVER:", result);
-      router.navigate({to:"/todos"})
-
+      // console.log("RESULT FROM SERVER:", result);
+      router.navigate({ to: "/posts" });
     },
-    onError:(err)=>{
+    onError: (err) => {
       console.log("Error encountered");
-    }
+    },
   });
   const handleSubmit = (values: PostDTO) => {
     m.mutate(values);
   };
   return (
     <div>
-      <h1>Create Todo</h1>
+      <h1>Create Post</h1>
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
         {({}) => (
           <Form>
@@ -56,7 +55,10 @@ function RouteComponent() {
               <label>Title :</label>
               <Field name="title" />
             </div>
-
+            <div>
+              <label>Description :</label>
+              <Field name="description" />
+            </div>
             <div>
               <Button label="create" type="submit" />
             </div>

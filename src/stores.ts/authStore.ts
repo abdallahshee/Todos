@@ -1,16 +1,4 @@
-// import { userNoPassword } from "@/models/user.model";
-// import {create} from 'zustand'
-// export interface AuthState{
-//     user:userNoPassword |null
-//     isAuthenticated:boolean
 
-// }
-
-// export const useAuthStore=create<AuthState>(()=>({
-//     user:null,
-//     isAuthenticated:false,
-
-// }))
 
 import { userNoPassword } from "@/models/user.model";
 import { create } from "zustand";

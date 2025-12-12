@@ -12,7 +12,8 @@ export const Route = createFileRoute("/account/register")({
 const initialValues: UserDTO = {
   email: "",
   password: "",
-  firstName:""
+  firstName:"",
+  lastName:""
 };
 function RouteComponent() {
   const userCreateFun = useServerFn(registerUser);
@@ -41,6 +42,10 @@ function RouteComponent() {
                 <div>
                 <label>Firstname :</label>
                 <Field name="firstName" />
+              </div>
+                   <div>
+                <label>Lastname :</label>
+                <Field name="lastName" />
               </div>
               <div>
                 <label>Email :</label>
