@@ -1,5 +1,6 @@
 import { createTodo } from "@/functions/todos.functions";
 import { TodoDTO } from "@/schemas/todo.schema";
+import { useAuthStore } from "@/stores.ts/authStore";
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
@@ -8,8 +9,9 @@ import { Button } from "primereact/button";
 
   //  const item = localStorage.getItem("auth");
 export const Route = createFileRoute("/todos/create")({
-beforeLoad(ctx) {
-  if(!ctx.context.isAuthenticated){
+beforeLoad() {
+  const isAuthenticated=useAuthStore.getState().isAuthenticated
+  if(!isAuthenticated){
     console.log('Not Authenticated');
     throw redirect({to:"/account"})
   }

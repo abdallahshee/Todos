@@ -1,7 +1,8 @@
-import { loginUser} from "@/functions/user.functions";
+import { loginUser } from "@/functions/user.functions";
 import { UserDTO } from "@/schemas/user.schema";
 import { useAuthStore } from "@/stores.ts/authStore";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "@tanstack/react-router";
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { Field, Form, Formik } from "formik";
@@ -17,31 +18,23 @@ const initialValues: UserDTO = {
 };
 function RouteComponent() {
   const userLoginFunc = useServerFn(loginUser);
-
-  // const m = useMutation({
-  //   mutationFn: (values: UserDTO) => {
-  //     return userLoginFunc({ data: values });
-  //   },
-  //   onSuccess: async(res) => {
-  //     useAuthStore.setState({isAuthenticated:true, })
-  //   },
-
+  const router=useRouter()
   const m = useMutation({
-  mutationFn: (values: UserDTO) => userLoginFunc({ data: values }),
-onSuccess: async (res) => {
-  if (!res) return; // guard clause
+    mutationFn: (values: UserDTO) => userLoginFunc({ data: values }),
+    onSuccess: async (res) => {
+      if (!res) return; // guard clause
 
-  const data = await res.json();
-  console.log("USER IS HERE "+JSON.stringify(data.user));
-  useAuthStore.setState({
-    user: data.user,
-    isAuthenticated: true,
-  });
-},
+      const data = await res.json();
+      // console.log("USER IS HERE "+JSON.stringify(data.user));
+      useAuthStore.setState({
+        user: data.user,
+        isAuthenticated: true,
+      });
+      router.navigate({to:'/account/home'})
+    },
   });
   const handleSubmit = (values: UserDTO) => {
-    console.log(values);
-
+    // console.log(values);
     m.mutate(values);
   };
   return (
