@@ -9,6 +9,11 @@ export interface Post {
   createdAt: Date;
   updatedAt: Date;
   description: string;
+  views:number
+}
+
+export interface GetMyPostsInput {
+  status?: PostStatus; // optional filter
 }
 export type PostStatus = "Pending" | "Published" | "Rejected";
 const PostSchema = new mongoose.Schema<Post>(
@@ -26,6 +31,7 @@ const PostSchema = new mongoose.Schema<Post>(
       required: true,
     },
     description: { type: String },
+    views:{type:Number}
   },
   { timestamps: true, _id: false }
 );

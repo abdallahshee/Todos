@@ -26,6 +26,7 @@ export const registerUser = createServerFn({ method: "POST" })
           createdAt: new Date(),
           updatedAt: new Date(),
           ...data,
+          role:"User",
           password: hashedPassword,
         };
         const insertedItem = await UserModel.create(newuser);
@@ -57,7 +58,8 @@ export const loginUser = createServerFn({ method: "POST" })
             lastName:user.lastName,
             createdAt:user.createdAt,
             updatedAt:user.updatedAt,
-            lastlogin:new Date
+            lastlogin:new Date,
+            role:user.role
           };
           const secret_key = process.env.JWT_SECRET || "";
           const token = jwt.sign(userPayload, secret_key);

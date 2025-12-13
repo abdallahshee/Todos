@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+export type UserRole="Admin"|"User"
 export interface User {
   _id: string;
   email: string;
@@ -7,6 +8,7 @@ export interface User {
   lastName:string,
   createdAt:Date,
   updatedAt:Date,
+  role:UserRole,
   lastlogin:Date |undefined
 }
 
@@ -21,7 +23,8 @@ const UserSchema = new mongoose.Schema<User>(
     lastName: { type: String },
     updatedAt:{type:Date},
     createdAt:{type:Date},
-    lastlogin:{type:Date }
+    lastlogin:{type:Date },
+    role:{type:String, enum:["Admin","User"]}
   },
   {timestamps:true, _id:false}
  

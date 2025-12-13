@@ -1,22 +1,22 @@
 import { createPost } from "@/functions/post.functions";
-import { PostDTO } from "@/schemas/post.schema";
+import { PostDTO, PostSchema } from "@/schemas/post.schema";
 import { useAuthStore } from "@/stores.ts/authStore";
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, redirect, useRouter } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { Formik } from "formik";
+import { Formik, ErrorMessage } from "formik";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
 //  const item = localStorage.getItem("auth");
 export const Route = createFileRoute("/posts/create")({
-  beforeLoad() {
-    const isAuthenticated = useAuthStore.getState().isAuthenticated;
-    if (!isAuthenticated) {
-      // console.log('Not Authenticated');
-      throw redirect({ to: "/account" });
-    }
-  },
+  // beforeLoad() {
+  //   const isAuthenticated = useAuthStore.getState().isAuthenticated;
+  //   if (!isAuthenticated) {
+
+  //     throw redirect({ to: "/account" });
+  //   }
+  // },
   component: RouteComponent,
 });
 const initialValues: PostDTO = {
@@ -43,30 +43,68 @@ function RouteComponent() {
       console.log("Error encountered");
     },
   });
-  const handleSubmit = (values: PostDTO) => {
+  const handleCreatePost = (values: PostDTO) => {
     m.mutate(values);
   };
   return (
-    <div className="grid grid-cols-1">
+    <div>
       <h1>Create Post</h1>
-      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-        {({}) => (
-          <Form>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" />
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleCreatePost}
+        validationSchema={PostSchema}
+      >
+        {({
+          handleBlur,
+          handleSubmit,
+          handleChange,
+          values,
+          errors,
+          touched,
+        }) => (
+          <Form noValidate onSubmit={handleSubmit}>
+            <Form.Group className="mb-3">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="text"
+                name="title"
+                value={values.title}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                isInvalid={!!errors.title && touched.title}
+              />
+              <ErrorMessage name="title">
+                {(msg) => (
+                  <Form.Control.Feedback type="invalid">
+                    {msg}
+                  </Form.Control.Feedback>
+                )}
+              </ErrorMessage>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="textarea"
+                name="description"
+                value={values.description}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                isInvalid={!!errors.description && touched.description}
+              />
+              <ErrorMessage name="description">
+                {(msg) => (
+                  <Form.Control.Feedback type="invalid">
+                    {msg}
+                  </Form.Control.Feedback>
+                )}
+              </ErrorMessage>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="Password" />
+            <Form.Group>
+              <Button type="submit" className="w-100" disabled={m.isPending}>
+                {m.isPending ? "Creating..." : "Create"}
+              </Button>
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Check me out" />
-            </Form.Group>
-            <Button variant="primary" type="submit">
-              Submit
-            </Button>
           </Form>
         )}
       </Formik>

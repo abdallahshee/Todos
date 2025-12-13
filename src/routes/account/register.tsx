@@ -120,11 +120,14 @@ function RouteComponent() {
           </Form.Group>
           <Form.Group>
             <Button type="submit" className="w-100" disabled={m.isPending}>
-              {m.isPending ? "Registering in..." : "Register"}
+              {m.isPending ? "Registering ..." : "Register"}
             </Button>
           </Form.Group>
           <Form.Group className="mt-3">
-             <h5>Already have an account <Link to="/account"> Click Here</Link> to login</h5>
+            <h5>
+              Already have an account <Link to="/account"> Click Here</Link> to
+              login
+            </h5>
           </Form.Group>
         </Form>
       )}

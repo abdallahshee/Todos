@@ -8,8 +8,8 @@ export const Route = createFileRoute("/account")({
 function RouteComponent() {
   return (
     <div className="flex flex-col lg:flex-row">
-      <div className="lg:w-1/2">image logo here</div>
-      <div className="lg:w-1/2 p-4">
+      <div className="lg:w-3/5">image logo here</div>
+      <div className="lg:w-2/5 p-4">
         <Card className="p-4 bg-gray-600">
           <div className="row mb-2">
             <h1>image will be here</h1>
