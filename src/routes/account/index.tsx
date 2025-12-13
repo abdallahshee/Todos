@@ -1,12 +1,14 @@
 import { loginUser } from "@/functions/user.functions";
-import { LoginDTO} from "@/schemas/user.schema";
+import { LoginDTO, LoginSchema } from "@/schemas/user.schema";
 import { useAuthStore } from "@/stores.ts/authStore";
 import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/react-router";
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { Field, Form, Formik } from "formik";
-import { Button } from "primereact/button";
+import { Button, Form, InputGroup } from "react-bootstrap";
+import { Formik, ErrorMessage } from "formik";
+import { useState } from "react";
+import { Eye, EyeSlash } from "react-bootstrap-icons";
 
 export const Route = createFileRoute("/account/")({
   component: RouteComponent,
@@ -30,36 +32,98 @@ function RouteComponent() {
         user: data.user,
         isAuthenticated: true,
       });
-      router.navigate({ to: "/todos/create" });
+      router.navigate({ to: "/posts/create" });
     },
   });
-  const handleSubmit = (values: LoginDTO) => {
-    // console.log(values);
+  const handleLogin = (values: LoginDTO) => {
+    console.log(values);
     m.mutate(values);
   };
+  const [showPassword,setShowPassword]=useState<boolean>(false)
   return (
-    <div>
-      <div>
-        <h1>Login User</h1>
-        <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-          {({}) => (
-            <Form>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={LoginSchema}
+      onSubmit={handleLogin}
+    >
+      {({
+        values,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        touched,
+        errors,
+      }) => (
+        <Form className="my-2" noValidate onSubmit={handleSubmit}>
+          {/* EMAIL */}
+          <Form.Group className="mb-3">
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              type="email"
+              name="email"
+              value={values.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              isInvalid={!!errors.email && touched.email}
+            />
+            <ErrorMessage name="email">
+              {(msg) => (
+                <Form.Control.Feedback type="invalid">
+                  {msg}
+                </Form.Control.Feedback>
+              )}
+            </ErrorMessage>
+          </Form.Group>
 
-              <div>
-                <label>Email :</label>
-                <Field name="email" />
-              </div>
-              <div>
-                <label>Password:</label>
-                <Field name="password" />
-              </div>
-              <div>
-                <Button label="Login" type="submit" />
-              </div>
-            </Form>
-          )}
-        </Formik>
-      </div>
-    </div>
+
+
+<Form.Group className="mb-3">
+      <Form.Label>Password</Form.Label>
+
+      <InputGroup>
+        <Form.Control
+          type={showPassword ? "text" : "password"}
+          placeholder="Enter password"
+        />
+
+        <Button
+          variant="outline-secondary"
+          onClick={() => setShowPassword((prev) => !prev)}
+        >
+         {showPassword ? <EyeSlash /> : <Eye />}
+        </Button>
+      </InputGroup>
+    </Form.Group>
+
+          {/* PASSWORD */}
+          <Form.Group className="mb-3">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              name="password"
+              value={values.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              isInvalid={!!errors.password && touched.password}
+            />
+            <ErrorMessage name="password">
+              {(msg) => (
+                <Form.Control.Feedback type="invalid">
+                  {msg}
+                </Form.Control.Feedback>
+              )}
+            </ErrorMessage>
+          </Form.Group>
+          <Form.Group className="3">
+            <Button type="submit" className="w-100" disabled={m.isPending}>
+              {m.isPending ? "Logging in..." : "Login"}
+            </Button>
+          </Form.Group>
+          <Form.Group className="mt-3">
+            <h5>Dont have an account <Link to="/account/register"> Click Here</Link> to register</h5>
+          </Form.Group>
+        </Form>
+      )}
+    </Formik>
   );
 }

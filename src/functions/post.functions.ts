@@ -1,12 +1,13 @@
 import { authMiddleware } from "@/middlewares/authMiddleware";
+import { yupValidator } from "@/middlewares/yupValidator";
 import { connectDB } from "@/models/Database";
 import { Post, PostModel } from "@/models/post.model";
-import { PostSchema } from "@/schemas/post.schema";
+import { PostSchema} from "@/schemas/post.schema";
 import { createServerFn } from "@tanstack/react-start";
 import { nanoid } from "nanoid";
 
 export const createPost = createServerFn({ method: "POST" })
-  .inputValidator(PostSchema)
+ .inputValidator(yupValidator(PostSchema))
   .middleware([authMiddleware])
   .handler(async ({ data, context }) => {
     try {
@@ -15,7 +16,7 @@ export const createPost = createServerFn({ method: "POST" })
         _id: nanoid(7), // already a string
         userId: context?.currentUser?._id,
         createdBy: context.currentUser.firstName,
-        verified: false,
+        status: "Pending",
         createdAt: new Date(),
         updatedAt: new Date(),
         ...data,

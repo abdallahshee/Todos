@@ -1,7 +1,12 @@
-import z from "zod"
-export const PostSchema=z.object({
-    title:z.string().nonempty(),
-    description:z.string().nonempty()
+import * as yup from "yup";
+
+export const PostSchema=yup.object({
+    title:yup.string().required(),
+    description:yup.string().required()
 })
 
-export type PostDTO=z.infer<typeof PostSchema>
+export type PostDTO=yup.InferType<typeof PostSchema>
+
+
+
+

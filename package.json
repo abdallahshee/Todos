@@ -9,6 +9,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@heroui/react": "^2.8.5",
     "@tailwindcss/vite": "^4.0.6",
     "@tanstack/react-devtools": "^0.7.0",
     "@tanstack/react-query": "^5.66.5",
@@ -18,12 +19,17 @@
     "@tanstack/react-router-ssr-query": "^1.131.7",
     "@tanstack/react-start": "^1.132.0",
     "@tanstack/router-plugin": "^1.132.0",
+    "bootstrap": "^5.3.8",
+    "framer-motion": "^12.23.26",
     "mongoose": "^9.0.1",
     "nitro": "latest",
     "react": "^19.2.0",
+    "react-bootstrap": "^2.10.10",
+    "react-bootstrap-icons": "^1.11.6",
     "react-dom": "^19.2.0",
     "tailwindcss": "^4.0.6",
     "vite-tsconfig-paths": "^5.1.4",
+    "yup": "^1.7.1",
     "zustand": "^5.0.9"
   },
   "devDependencies": {
@@ -40,11 +46,9 @@
     "jsdom": "^27.0.0",
     "jsonwebtoken": "^9.0.3",
     "nanoid": "^5.1.6",
-    "primereact": "^10.9.7",
     "typescript": "^5.7.2",
     "vite": "^7.1.7",
     "vitest": "^3.0.5",
-    "web-vitals": "^5.1.0",
-    "zod": "^4.1.13"
+    "web-vitals": "^5.1.0"
   }
 }

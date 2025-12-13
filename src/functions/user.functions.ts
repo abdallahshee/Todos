@@ -5,11 +5,13 @@ import { createServerFn } from "@tanstack/react-start";
 import bcrypt from "bcryptjs";
 import { nanoid } from "nanoid";
 import jwt from "jsonwebtoken";
+import { yupValidator } from "@/middlewares/yupValidator";
 
 export const registerUser = createServerFn({ method: "POST" })
-  .inputValidator(UserSchema)
+   .inputValidator(yupValidator(UserSchema))
   .handler(async ({ data }) => {
     try {
+      console.log("DATA IS HERE "+JSON.stringify(data));
       await connectDB();
       const user = (await UserModel.findOne({
         email: data.email,
@@ -37,9 +39,10 @@ export const registerUser = createServerFn({ method: "POST" })
   });
 
 export const loginUser = createServerFn({ method: "POST" })
-  .inputValidator(LoginSchema)
+ .inputValidator(yupValidator(LoginSchema))
   .handler(async ({ data }) => {
     try {
+      console.log("DATA IS HERE "+JSON.stringify(data));
       await connectDB();
       const user = (await UserModel.findOne({
         email: data.email,

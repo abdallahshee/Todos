@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AccountRouteRouteImport } from './routes/account/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PostsIndexRouteImport } from './routes/posts/index'
 import { Route as AccountIndexRouteImport } from './routes/account/index'
@@ -16,6 +17,11 @@ import { Route as PostsCreateRouteImport } from './routes/posts/create'
 import { Route as AccountRegisterRouteImport } from './routes/account/register'
 import { Route as AccountHomeRouteImport } from './routes/account/home'
 
+const AccountRouteRoute = AccountRouteRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -27,9 +33,9 @@ const PostsIndexRoute = PostsIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const AccountIndexRoute = AccountIndexRouteImport.update({
-  id: '/account/',
-  path: '/account/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => AccountRouteRoute,
 } as any)
 const PostsCreateRoute = PostsCreateRouteImport.update({
   id: '/posts/create',
@@ -37,22 +43,23 @@ const PostsCreateRoute = PostsCreateRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const AccountRegisterRoute = AccountRegisterRouteImport.update({
-  id: '/account/register',
-  path: '/account/register',
-  getParentRoute: () => rootRouteImport,
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => AccountRouteRoute,
 } as any)
 const AccountHomeRoute = AccountHomeRouteImport.update({
-  id: '/account/home',
-  path: '/account/home',
-  getParentRoute: () => rootRouteImport,
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => AccountRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/account': typeof AccountRouteRouteWithChildren
   '/account/home': typeof AccountHomeRoute
   '/account/register': typeof AccountRegisterRoute
   '/posts/create': typeof PostsCreateRoute
-  '/account': typeof AccountIndexRoute
+  '/account/': typeof AccountIndexRoute
   '/posts': typeof PostsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/account': typeof AccountRouteRouteWithChildren
   '/account/home': typeof AccountHomeRoute
   '/account/register': typeof AccountRegisterRoute
   '/posts/create': typeof PostsCreateRoute
@@ -76,10 +84,11 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/account'
     | '/account/home'
     | '/account/register'
     | '/posts/create'
-    | '/account'
+    | '/account/'
     | '/posts'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -92,6 +101,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/account'
     | '/account/home'
     | '/account/register'
     | '/posts/create'
@@ -101,15 +111,20 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AccountHomeRoute: typeof AccountHomeRoute
-  AccountRegisterRoute: typeof AccountRegisterRoute
+  AccountRouteRoute: typeof AccountRouteRouteWithChildren
   PostsCreateRoute: typeof PostsCreateRoute
-  AccountIndexRoute: typeof AccountIndexRoute
   PostsIndexRoute: typeof PostsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/account': {
+      id: '/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AccountRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -126,10 +141,10 @@ declare module '@tanstack/react-router' {
     }
     '/account/': {
       id: '/account/'
-      path: '/account'
-      fullPath: '/account'
+      path: '/'
+      fullPath: '/account/'
       preLoaderRoute: typeof AccountIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AccountRouteRoute
     }
     '/posts/create': {
       id: '/posts/create'
@@ -140,27 +155,41 @@ declare module '@tanstack/react-router' {
     }
     '/account/register': {
       id: '/account/register'
-      path: '/account/register'
+      path: '/register'
       fullPath: '/account/register'
       preLoaderRoute: typeof AccountRegisterRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AccountRouteRoute
     }
     '/account/home': {
       id: '/account/home'
-      path: '/account/home'
+      path: '/home'
       fullPath: '/account/home'
       preLoaderRoute: typeof AccountHomeRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AccountRouteRoute
     }
   }
 }
 
-const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+interface AccountRouteRouteChildren {
+  AccountHomeRoute: typeof AccountHomeRoute
+  AccountRegisterRoute: typeof AccountRegisterRoute
+  AccountIndexRoute: typeof AccountIndexRoute
+}
+
+const AccountRouteRouteChildren: AccountRouteRouteChildren = {
   AccountHomeRoute: AccountHomeRoute,
   AccountRegisterRoute: AccountRegisterRoute,
-  PostsCreateRoute: PostsCreateRoute,
   AccountIndexRoute: AccountIndexRoute,
+}
+
+const AccountRouteRouteWithChildren = AccountRouteRoute._addFileChildren(
+  AccountRouteRouteChildren,
+)
+
+const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
+  AccountRouteRoute: AccountRouteRouteWithChildren,
+  PostsCreateRoute: PostsCreateRoute,
   PostsIndexRoute: PostsIndexRoute,
 }
 export const routeTree = rootRouteImport

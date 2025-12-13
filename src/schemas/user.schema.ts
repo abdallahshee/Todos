@@ -1,18 +1,18 @@
-import z from 'zod'
+import * as yup from "yup";
 
-export const UserSchema=z.object({
-    email:z.string().nonempty(),
-    password:z.string().nonempty(),
-    firstName:z.string().nonempty(),
-    lastName:z.string().nonempty()
+export const UserSchema=yup.object({
+    email:yup.string().required("Email field is required"),
+    password:yup.string().required("Password field is required"),
+    firstName:yup.string().required("Firstname field is required"),
+    lastName:yup.string().required("Lastname field is required")
 })
 
 
-export type UserDTO=z.infer<typeof UserSchema>
+export type UserDTO=yup.InferType<typeof UserSchema>
 
-export const LoginSchema=z.object({
-    email:z.string().nonempty(),
-    password:z.string().nonempty(),
+export const LoginSchema=yup.object({
+    email:yup.string().required("Email field is required"),
+    password:yup.string().required("Password field is required").min(8,"Password should be at least 8 characters")
 })
 
-export type LoginDTO=z.infer<typeof LoginSchema>
+export type LoginDTO=yup.InferType<typeof LoginSchema>

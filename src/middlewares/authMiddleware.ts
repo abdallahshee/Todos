@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import {redirect} from '@tanstack/react-router'
 import { userNoPassword } from "@/models/user.model";
 
+
 export const authMiddleware = createMiddleware().server(
   ({ next, request}) => {
     const cookieHeader = request.headers.get("Cookie");
@@ -27,3 +28,6 @@ export const authMiddleware = createMiddleware().server(
     }
   }
 );
+
+
+ 

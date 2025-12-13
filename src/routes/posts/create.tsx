@@ -4,8 +4,9 @@ import { useAuthStore } from "@/stores.ts/authStore";
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, redirect, useRouter } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { Formik, Form, Field } from "formik";
-import { Button } from "primereact/button";
+import { Formik } from "formik";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
 //  const item = localStorage.getItem("auth");
 export const Route = createFileRoute("/posts/create")({
@@ -46,22 +47,26 @@ function RouteComponent() {
     m.mutate(values);
   };
   return (
-    <div>
+    <div className="grid grid-cols-1">
       <h1>Create Post</h1>
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
         {({}) => (
           <Form>
-            <div>
-              <label>Title :</label>
-              <Field name="title" />
-            </div>
-            <div>
-              <label>Description :</label>
-              <Field name="description" />
-            </div>
-            <div>
-              <Button label="create" type="submit" />
-            </div>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control type="email" placeholder="Enter email" />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control type="password" placeholder="Password" />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formBasicCheckbox">
+              <Form.Check type="checkbox" label="Check me out" />
+            </Form.Group>
+            <Button variant="primary" type="submit">
+              Submit
+            </Button>
           </Form>
         )}
       </Formik>

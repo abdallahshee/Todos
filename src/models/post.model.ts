@@ -5,24 +5,29 @@ export interface Post {
   title: string;
   userId: string;
   createdBy: string;
-  verified:boolean,
-  createdAt:Date,
-  updatedAt:Date,
-  description:string
+  status: PostStatus;
+  createdAt: Date;
+  updatedAt: Date;
+  description: string;
 }
-
+export type PostStatus = "Pending" | "Published" | "Rejected";
 const PostSchema = new mongoose.Schema<Post>(
   {
     _id: { type: String, unique: true },
     title: { type: String },
     userId: { type: String },
-    createdBy: { type : String },
-    createdAt:{ type:Date } ,
-    updatedAt:{type:Date},
-    verified:{type:Boolean},
-    description:{type: String}
+    createdBy: { type: String },
+    createdAt: { type: Date },
+    updatedAt: { type: Date },
+    status: {
+      type: String,
+      enum: ["Pending", "Published", "Rejected"],
+      default: "Pending",
+      required: true,
+    },
+    description: { type: String },
   },
-  {timestamps:true, _id:false}
+  { timestamps: true, _id: false }
 );
 
 export const PostModel =

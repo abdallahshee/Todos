@@ -11,6 +11,9 @@ import Header from '../components/Header'
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 
 import appCss from '../styles.css?url'
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
 
 import type { QueryClient } from '@tanstack/react-query'
 
